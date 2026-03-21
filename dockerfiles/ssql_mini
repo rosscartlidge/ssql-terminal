@@ -1,0 +1,24 @@
+FROM --platform=i386 i386/debian:bookworm
+ARG DEBIAN_FRONTEND=noninteractive
+RUN apt-get clean && apt-get update && apt-get -y upgrade
+RUN apt-get -y install bash-completion less vim curl file
+RUN useradd -m user && echo "user:password" | chpasswd
+# Copy pre-built ssql binary (cross-compiled for linux/386)
+COPY ssql /usr/local/bin/ssql
+RUN chmod +x /usr/local/bin/ssql
+# Set up bash completion for ssql
+RUN echo 'eval "$(ssql -completion-script)"' >> /home/user/.bashrc
+# Create sample data
+RUN mkdir -p /home/user/data
+RUN echo 'name,age,dept,salary\nAlice,30,Engineering,120000\nBob,25,Sales,85000\nCarol,45,Engineering,150000\nDave,35,Marketing,95000\nEve,28,Sales,78000\nFrank,52,Engineering,165000\nGrace,33,Finance,110000\nHank,41,Marketing,105000\nIvy,29,Engineering,98000\nJack,38,Finance,125000' > /home/user/data/employees.csv
+RUN echo '{"customer_id":1,"name":"Acme Corp","country":"US","tier":"gold"}\n{"customer_id":2,"name":"Globex","country":"UK","tier":"silver"}\n{"customer_id":3,"name":"Initech","country":"US","tier":"bronze"}\n{"customer_id":4,"name":"Umbrella","country":"DE","tier":"gold"}\n{"customer_id":5,"name":"Stark Industries","country":"US","tier":"platinum"}' > /home/user/data/customers.jsonl
+RUN echo 'order_id,customer_id,product,amount\n1,1,Widget,150.00\n2,3,Gadget,89.50\n3,1,Doohickey,220.00\n4,2,Widget,150.00\n5,5,Gadget,340.00\n6,4,Widget,175.00\n7,1,Gadget,95.00\n8,3,Widget,150.00\n9,5,Doohickey,445.00\n10,2,Gadget,120.00' > /home/user/data/orders.csv
+RUN chown -R user:user /home/user/data
+# Welcome message
+RUN echo 'echo "ssql terminal — type: ssql from data/employees.csv | ssql to table"' >> /home/user/.bashrc
+RUN echo 'echo "Tab completion enabled — try: ssql from data/employees.csv | ssql where -if <TAB>"' >> /home/user/.bashrc
+RUN echo 'echo ""' >> /home/user/.bashrc
+WORKDIR /home/user/
+ENV HOME="/home/user" TERM="xterm" USER="user" SHELL="/bin/bash" EDITOR="vim" LANG="en_US.UTF-8" LC_ALL="C"
+RUN echo 'root:password' | chpasswd
+CMD [ "/bin/bash" ]
