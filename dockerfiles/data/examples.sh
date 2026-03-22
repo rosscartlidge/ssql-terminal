@@ -1,7 +1,8 @@
 #!/bin/bash
 # ssql playground examples — run any of these pipelines
 # Uncomment one at a time, or copy-paste into your shell.
-# Use tab completion to explore: ssql from data/employees.csv | ssql where -if <TAB>
+# Tab completion: ssql from csv data/employees.csv | ssql where -if <TAB>
+# (use <TAB> after "from" for format, after path for files, and after "-if" for field names)
 
 # Get help — see all commands
 # ssql -help
