@@ -8,13 +8,14 @@ COPY dockerfiles/ssql /usr/local/bin/ssql
 RUN chmod +x /usr/local/bin/ssql
 # Copy sample data (same files as the WASM playground)
 COPY dockerfiles/data/ /home/user/data/
-RUN chmod +x /home/user/data/examples.sh
-RUN chown -R user:user /home/user/data
+RUN mv /home/user/data/examples.sh /home/user/examples.sh
+RUN chmod +x /home/user/examples.sh
+RUN chown -R user:user /home/user/data /home/user/examples.sh
 # Set up bash completion for ssql
 RUN echo 'eval "$(ssql -completion-script)"' >> /home/user/.bashrc
 # Welcome message
 RUN echo 'echo "ssql terminal — type: ssql from data/employees.csv | ssql to table"' >> /home/user/.bashrc
-RUN echo 'echo "Examples: cat data/examples.sh    Tab completion: ssql from data/employees.csv | ssql where -if <TAB>"' >> /home/user/.bashrc
+RUN echo 'echo "Examples: cat examples.sh    Tab completion: ssql from csv data/employees.csv | ssql where -if <TAB>"' >> /home/user/.bashrc
 RUN echo 'echo ""' >> /home/user/.bashrc
 WORKDIR /home/user/
 ENV HOME="/home/user" TERM="xterm" USER="user" SHELL="/bin/bash" EDITOR="vim" LANG="en_US.UTF-8" LC_ALL="C"
