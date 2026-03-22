@@ -23,6 +23,7 @@
 	var cx = null;
 	var fitAddon = null;
 	var cxReadFunc = null;
+	var hasTouchBar = false;
 	var blockCache = null;
 	var processCount = 0;
 	var curVT = 0;
@@ -39,6 +40,14 @@
 			return;
 		for(var i=0;i<str.length;i++)
 			cxReadFunc(str.charCodeAt(i));
+	}
+	function sendKey(code)
+	{
+		if(cxReadFunc == null)
+			return;
+		cxReadFunc(code);
+		// Refocus terminal so next keypress goes to it
+		if(term) term.focus();
 	}
 	function printMessage(msg)
 	{
@@ -331,7 +340,10 @@
 			await cx.run(configObj.cmd, configObj.args, configObj.opts);
 		}
 	}
-	onMount(initTerminal);
+	onMount(() => {
+		hasTouchBar = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+		initTerminal();
+	});
 	async function handleConnect()
 	{
 		const w = window.open("login.html", "_blank");
@@ -371,7 +383,42 @@
 				<canvas class="w-full h-full cursor-none" id="display"></canvas>
 			</div>
 		{/if}
-		<div class="absolute top-0 bottom-0 {sideBarPinned ? 'left-[23.5rem]' : 'left-14'} right-0 p-1 scrollbar" id="console">
+		<div class="absolute top-0 {hasTouchBar ? 'bottom-10' : 'bottom-0'} {sideBarPinned ? 'left-[23.5rem]' : 'left-14'} right-0 p-1 scrollbar" id="console">
 		</div>
+		{#if hasTouchBar}
+		<div class="absolute bottom-0 h-10 {sideBarPinned ? 'left-[23.5rem]' : 'left-14'} right-0 flex items-center gap-1 px-2 bg-gray-900 border-t border-gray-700 overflow-x-auto">
+			<button class="touch-key" on:click={() => sendKey(9)}>Tab</button>
+			<button class="touch-key" on:click={() => sendKey(27)}>Esc</button>
+			<button class="touch-key" on:click={() => readData('|')}>|</button>
+			<button class="touch-key" on:click={() => readData('<')}>{'<'}</button>
+			<button class="touch-key" on:click={() => readData('>')}>{'>'}</button>
+			<button class="touch-key" on:click={() => readData('(')}>{'('}</button>
+			<button class="touch-key" on:click={() => readData(')')}>{')'}</button>
+			<button class="touch-key" on:click={() => sendKey(3)}>Ctrl-C</button>
+			<button class="touch-key" on:click={() => sendKey(4)}>Ctrl-D</button>
+			<button class="touch-key" on:click={() => sendKey(26)}>Ctrl-Z</button>
+		</div>
+		{/if}
 	</div>
 </main>
+
+<style>
+	.touch-key {
+		background: #374151;
+		color: #e5e7eb;
+		border: 1px solid #4b5563;
+		border-radius: 4px;
+		padding: 4px 12px;
+		font-family: monospace;
+		font-size: 14px;
+		min-width: 44px;
+		height: 32px;
+		cursor: pointer;
+		white-space: nowrap;
+		-webkit-tap-highlight-color: transparent;
+		user-select: none;
+	}
+	.touch-key:active {
+		background: #4b5563;
+	}
+</style>
