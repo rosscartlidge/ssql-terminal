@@ -340,9 +340,9 @@
 			await cx.run(configObj.cmd, configObj.args, configObj.opts);
 		}
 	}
-	onMount(() => {
+	onMount(async () => {
 		hasTouchBar = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
-		initTerminal();
+		await initTerminal();
 	});
 	async function handleConnect()
 	{
