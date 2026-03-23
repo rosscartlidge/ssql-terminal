@@ -384,10 +384,9 @@
 				<canvas class="w-full h-full cursor-none" id="display"></canvas>
 			</div>
 		{/if}
-		<div class="absolute top-0 bottom-0 {sideBarPinned ? 'left-[23.5rem]' : 'left-14'} right-0 p-1 scrollbar" id="console">
-		</div>
 		{#if hasTouchBar}
-		<div class="absolute bottom-0 h-10 {sideBarPinned ? 'left-[23.5rem]' : 'left-14'} right-0 flex items-center gap-1 px-2 bg-gray-900 border-t border-gray-700 overflow-x-auto" style="z-index: 10;">
+		<div class="absolute top-0 h-10 {sideBarPinned ? 'left-[23.5rem]' : 'left-14'} right-0 flex items-center gap-1 px-2 bg-gray-900 border-b border-gray-700 overflow-x-auto" style="z-index: 10;">
+
 			<button class="touch-key" on:click={() => sendKey(9)}>Tab</button>
 			<button class="touch-key" on:click={() => sendKey(27)}>Esc</button>
 			<button class="touch-key" on:click={() => readData('|')}>|</button>
@@ -400,6 +399,8 @@
 			<button class="touch-key" on:click={() => sendKey(26)}>Ctrl-Z</button>
 		</div>
 		{/if}
+		<div class="absolute {hasTouchBar ? 'top-10' : 'top-0'} bottom-0 {sideBarPinned ? 'left-[23.5rem]' : 'left-14'} right-0 p-1 scrollbar" id="console">
+		</div>
 	</div>
 </main>
 
