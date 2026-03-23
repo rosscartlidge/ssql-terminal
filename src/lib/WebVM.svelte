@@ -340,10 +340,11 @@
 			await cx.run(configObj.cmd, configObj.args, configObj.opts);
 		}
 	}
-	onMount(async () => {
-		hasTouchBar = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
-		await initTerminal();
-	});
+	onMount(initTerminal);
+	// Detect touch after first interaction — avoids interfering with init
+	if (typeof window !== 'undefined') {
+		window.addEventListener('touchstart', () => { hasTouchBar = true; }, { once: true });
+	}
 	async function handleConnect()
 	{
 		const w = window.open("login.html", "_blank");
@@ -383,10 +384,10 @@
 				<canvas class="w-full h-full cursor-none" id="display"></canvas>
 			</div>
 		{/if}
-		<div class="absolute top-0 {hasTouchBar ? 'bottom-10' : 'bottom-0'} {sideBarPinned ? 'left-[23.5rem]' : 'left-14'} right-0 p-1 scrollbar" id="console">
+		<div class="absolute top-0 bottom-0 {sideBarPinned ? 'left-[23.5rem]' : 'left-14'} right-0 p-1 scrollbar" id="console">
 		</div>
 		{#if hasTouchBar}
-		<div class="absolute bottom-0 h-10 {sideBarPinned ? 'left-[23.5rem]' : 'left-14'} right-0 flex items-center gap-1 px-2 bg-gray-900 border-t border-gray-700 overflow-x-auto">
+		<div class="absolute bottom-0 h-10 {sideBarPinned ? 'left-[23.5rem]' : 'left-14'} right-0 flex items-center gap-1 px-2 bg-gray-900 border-t border-gray-700 overflow-x-auto" style="z-index: 10;">
 			<button class="touch-key" on:click={() => sendKey(9)}>Tab</button>
 			<button class="touch-key" on:click={() => sendKey(27)}>Esc</button>
 			<button class="touch-key" on:click={() => readData('|')}>|</button>
