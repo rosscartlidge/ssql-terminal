@@ -385,7 +385,7 @@
 			</div>
 		{/if}
 		{#if hasTouchBar}
-		<div class="absolute top-0 h-10 {sideBarPinned ? 'left-[23.5rem]' : 'left-14'} right-0 flex items-center gap-1 px-2 bg-gray-900 border-b border-gray-700 overflow-x-auto" style="z-index: 10;">
+		<div class="absolute top-0 h-12 {sideBarPinned ? 'left-[23.5rem]' : 'left-14'} right-0 flex items-center gap-1 px-2 bg-gray-900 border-b border-gray-700 overflow-x-auto" style="z-index: 10;">
 
 			<button class="touch-key" on:click={() => sendKey(9)}>Tab</button>
 			<button class="touch-key" on:click={() => sendKey(27)}>Esc</button>
@@ -393,12 +393,12 @@
 			<button class="touch-key" on:click={() => readData('\x1b[B')}>&#x25BC;</button>
 			<button class="touch-key" on:click={() => readData('\x1b[D')}>&#x25C0;</button>
 			<button class="touch-key" on:click={() => readData('\x1b[C')}>&#x25B6;</button>
-			<button class="touch-key" on:click={() => sendKey(3)}>Ctrl-C</button>
-			<button class="touch-key" on:click={() => sendKey(4)}>Ctrl-D</button>
-			<button class="touch-key" on:click={() => sendKey(26)}>Ctrl-Z</button>
+			<button class="touch-key" on:click={() => sendKey(3)}>C-c</button>
+			<button class="touch-key" on:click={() => sendKey(4)}>C-d</button>
+			<button class="touch-key" on:click={() => sendKey(26)}>C-z</button>
 		</div>
 		{/if}
-		<div class="absolute {hasTouchBar ? 'top-10' : 'top-0'} bottom-0 {sideBarPinned ? 'left-[23.5rem]' : 'left-14'} right-0 p-1 scrollbar" id="console">
+		<div class="absolute {hasTouchBar ? 'top-12' : 'top-0'} bottom-0 {sideBarPinned ? 'left-[23.5rem]' : 'left-14'} right-0 p-1 scrollbar" id="console">
 		</div>
 	</div>
 </main>
@@ -409,11 +409,11 @@
 		color: #e5e7eb;
 		border: 1px solid #4b5563;
 		border-radius: 4px;
-		padding: 4px 12px;
+		padding: 6px 12px;
 		font-family: monospace;
 		font-size: 14px;
 		min-width: 44px;
-		height: 32px;
+		height: 40px;
 		cursor: pointer;
 		white-space: nowrap;
 		-webkit-tap-highlight-color: transparent;
