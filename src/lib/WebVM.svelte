@@ -389,11 +389,10 @@
 
 			<button class="touch-key" on:click={() => sendKey(9)}>Tab</button>
 			<button class="touch-key" on:click={() => sendKey(27)}>Esc</button>
-			<button class="touch-key" on:click={() => readData('|')}>|</button>
-			<button class="touch-key" on:click={() => readData('<')}>{'<'}</button>
-			<button class="touch-key" on:click={() => readData('>')}>{'>'}</button>
-			<button class="touch-key" on:click={() => readData('(')}>{'('}</button>
-			<button class="touch-key" on:click={() => readData(')')}>{')'}</button>
+			<button class="touch-key" on:click={() => readData('\x1b[A')}>&#x25B2;</button>
+			<button class="touch-key" on:click={() => readData('\x1b[B')}>&#x25BC;</button>
+			<button class="touch-key" on:click={() => readData('\x1b[D')}>&#x25C0;</button>
+			<button class="touch-key" on:click={() => readData('\x1b[C')}>&#x25B6;</button>
 			<button class="touch-key" on:click={() => sendKey(3)}>Ctrl-C</button>
 			<button class="touch-key" on:click={() => sendKey(4)}>Ctrl-D</button>
 			<button class="touch-key" on:click={() => sendKey(26)}>Ctrl-Z</button>
