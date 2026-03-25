@@ -23,7 +23,6 @@
 	var cx = null;
 	var fitAddon = null;
 	var cxReadFunc = null;
-	var hasTouchBar = false;
 	var blockCache = null;
 	var processCount = 0;
 	var curVT = 0;
@@ -40,14 +39,6 @@
 			return;
 		for(var i=0;i<str.length;i++)
 			cxReadFunc(str.charCodeAt(i));
-	}
-	function sendKey(code)
-	{
-		if(cxReadFunc == null)
-			return;
-		cxReadFunc(code);
-		// Refocus terminal so next keypress goes to it
-		if(term) term.focus();
 	}
 	function printMessage(msg)
 	{
@@ -341,10 +332,6 @@
 		}
 	}
 	onMount(initTerminal);
-	// Detect touch after first interaction — avoids interfering with init
-	if (typeof window !== 'undefined') {
-		window.addEventListener('touchstart', () => { hasTouchBar = true; }, { once: true });
-	}
 	async function handleConnect()
 	{
 		const w = window.open("login.html", "_blank");
@@ -384,42 +371,7 @@
 				<canvas class="w-full h-full cursor-none" id="display"></canvas>
 			</div>
 		{/if}
-		{#if hasTouchBar}
-		<div class="absolute top-0 h-12 {sideBarPinned ? 'left-[23.5rem]' : 'left-14'} right-0 flex items-center gap-1 px-2 bg-gray-900 border-b border-gray-700 overflow-x-auto" style="z-index: 10;">
-
-			<button class="touch-key" on:click={() => sendKey(9)}>Tab</button>
-			<button class="touch-key" on:click={() => sendKey(27)}>Esc</button>
-			<button class="touch-key" on:click={() => readData('\x1b[A')}>&#x25B2;</button>
-			<button class="touch-key" on:click={() => readData('\x1b[B')}>&#x25BC;</button>
-			<button class="touch-key" on:click={() => readData('\x1b[D')}>&#x25C0;</button>
-			<button class="touch-key" on:click={() => readData('\x1b[C')}>&#x25B6;</button>
-			<button class="touch-key" on:click={() => sendKey(3)}>C-c</button>
-			<button class="touch-key" on:click={() => sendKey(4)}>C-d</button>
-			<button class="touch-key" on:click={() => sendKey(26)}>C-z</button>
-		</div>
-		{/if}
 		<div class="absolute top-0 bottom-0 {sideBarPinned ? 'left-[23.5rem]' : 'left-14'} right-0 p-1 scrollbar" id="console">
 		</div>
 	</div>
 </main>
-
-<style>
-	.touch-key {
-		background: #374151;
-		color: #e5e7eb;
-		border: 1px solid #4b5563;
-		border-radius: 4px;
-		padding: 6px 12px;
-		font-family: monospace;
-		font-size: 14px;
-		min-width: 44px;
-		height: 40px;
-		cursor: pointer;
-		white-space: nowrap;
-		-webkit-tap-highlight-color: transparent;
-		user-select: none;
-	}
-	.touch-key:active {
-		background: #4b5563;
-	}
-</style>
