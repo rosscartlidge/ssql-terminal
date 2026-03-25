@@ -398,7 +398,7 @@
 			<button class="touch-key" on:click={() => sendKey(26)}>C-z</button>
 		</div>
 		{/if}
-		<div class="absolute {hasTouchBar ? 'top-12' : 'top-0'} bottom-0 {sideBarPinned ? 'left-[23.5rem]' : 'left-14'} right-0 p-1 scrollbar" id="console">
+		<div class="absolute top-0 bottom-0 {sideBarPinned ? 'left-[23.5rem]' : 'left-14'} right-0 p-1 scrollbar" id="console">
 		</div>
 	</div>
 </main>
