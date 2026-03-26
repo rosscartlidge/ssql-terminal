@@ -11,6 +11,22 @@ COPY dockerfiles/data/ /home/user/data/
 RUN mv /home/user/data/examples.sh /home/user/examples.sh
 RUN chmod +x /home/user/examples.sh
 RUN chown -R user:user /home/user/data /home/user/examples.sh
+# SSH config for Tailscale hosts — user adds their IP/hostname
+RUN mkdir -p /home/user/.ssh && chmod 700 /home/user/.ssh
+RUN printf '# ssql SSH config — add your Tailscale hosts below\n\
+# Example: ssql from ssh myhost /path/to/data.csv\n\
+\n\
+Host myhost\n\
+    HostName 100.x.x.x\n\
+    User your-username\n\
+\n\
+# Defaults for all hosts\n\
+Host *\n\
+    StrictHostKeyChecking accept-new\n\
+    ServerAliveInterval 30\n\
+    ConnectTimeout 10\n' > /home/user/.ssh/config
+RUN chmod 600 /home/user/.ssh/config
+RUN chown -R user:user /home/user/.ssh
 # Set up bash completion for ssql
 RUN echo 'eval "$(ssql -completion-script)"' >> /home/user/.bashrc
 # Welcome message
