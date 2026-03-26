@@ -14,6 +14,8 @@ RUN chown -R user:user /home/user/data /home/user/examples.sh
 # SSH config for Tailscale hosts — user adds their IP/hostname
 COPY dockerfiles/ssh_config /home/user/.ssh/config
 RUN chmod 700 /home/user/.ssh && chmod 600 /home/user/.ssh/config && chown -R user:user /home/user/.ssh
+# Generate SSH keypair on first boot if missing
+RUN echo '[ -f ~/.ssh/id_ed25519 ] || { ssh-keygen -t ed25519 -N "" -f ~/.ssh/id_ed25519 -q; echo "SSH key generated — add to your host with:"; echo "  ssh-copy-id myhost"; echo ""; }' >> /home/user/.bashrc
 # Set up bash completion for ssql
 RUN echo 'eval "$(ssql -completion-script)"' >> /home/user/.bashrc
 # Welcome message
