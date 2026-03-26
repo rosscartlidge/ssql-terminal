@@ -1,0 +1,12 @@
+# ssql SSH config — add your Tailscale hosts below
+# Example: ssql from ssh myhost /path/to/data.csv
+
+Host myhost
+    HostName 100.x.x.x
+    User your-username
+
+# Defaults for all hosts
+Host *
+    StrictHostKeyChecking accept-new
+    ServerAliveInterval 30
+    ConnectTimeout 10
