@@ -17,7 +17,7 @@ RUN chmod 700 /home/user/.ssh && chmod 600 /home/user/.ssh/config && chown -R us
 # Set up bash completion for ssql
 RUN echo 'eval "$(ssql -completion-script)"' >> /home/user/.bashrc
 # Welcome message
-RUN echo 'echo "ssql terminal — type: ssql from data/employees.csv | ssql to table"' >> /home/user/.bashrc
+RUN echo 'echo "ssql terminal ($(ssql version 2>&1)) — type: ssql from data/employees.csv | ssql to table"' >> /home/user/.bashrc
 RUN echo 'echo "Examples: cat examples.sh    Tab completion: ssql from csv data/employees.csv | ssql where -if <TAB>"' >> /home/user/.bashrc
 RUN echo 'echo ""' >> /home/user/.bashrc
 WORKDIR /home/user/
