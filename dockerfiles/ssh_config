@@ -10,3 +10,6 @@ Host *
     StrictHostKeyChecking accept-new
     ServerAliveInterval 30
     ConnectTimeout 10
+    ControlMaster auto
+    ControlPath ~/.ssh/cm-%r@%h:%p
+    ControlPersist 60
