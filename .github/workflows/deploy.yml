@@ -89,7 +89,7 @@ jobs:
 
   build:
     needs: guard_clause # Dependency
-    runs-on: ubuntu-latest # Image to run the worker on.
+    runs-on: ubuntu-24.04 # pinned 2026-10-20: ubuntu-latest moved to 26.04, where the i386 docker build cannot resolve deb.debian.org
 
     env:
       TAG: "ext2-webvm-base-image" # Tag of docker image.
